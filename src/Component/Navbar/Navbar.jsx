@@ -109,7 +109,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header className="w-full">
+    <header className="w-full sticky top-0 z-50">
       {/* ===== Top Header ===== */}
       <div className="bg-gradient-to-r from-orange-300 to-yellow-300 px-3 py-2">
         <div className="max-w-7xl mx-auto">
