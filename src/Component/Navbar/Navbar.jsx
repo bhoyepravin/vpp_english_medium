@@ -356,12 +356,12 @@ const Navbar = () => {
             {/* Mobile Menu Panel */}
             <div className="md:hidden fixed top-0 left-0 w-full h-full z-50 overflow-hidden">
               {/* Menu Content */}
-              <div className="bg-orange-600 text-white h-full overflow-y-auto mobile-nav-scroll">
+              <div className="bg-gradient-to-r from-orange-300 to-yellow-300 text-gray-800 h-full overflow-y-auto mobile-nav-scroll">
                 <div className="p-4">
                   {/* Close button at top */}
                   <div className="flex justify-end mb-4">
                     <button
-                      className="text-white p-2"
+                      className="text-gray-800 p-2"
                       onClick={() => setOpen(false)}
                       aria-label="Close menu"
                     >
@@ -437,7 +437,7 @@ const Navbar = () => {
                       handleMainSite();
                       setOpen(false);
                     }}
-                    className="w-full bg-white text-orange-600 py-3 rounded-lg font-bold mt-6 text-sm hover:bg-gray-100 transition-colors"
+                    className="w-full bg-orange-400 text-gray-800 py-3 rounded-lg font-bold mt-6 text-sm hover:bg-gray-100 transition-colors"
                   >
                     GO TO MAIN SITE
                   </button>
@@ -450,7 +450,7 @@ const Navbar = () => {
                         href={social.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-white text-opacity-90 hover:text-opacity-100 transition-opacity"
+                        className="text-gray-800 text-opacity-90 hover:text-opacity-100 transition-opacity"
                       >
                         {social.icon}
                       </a>
