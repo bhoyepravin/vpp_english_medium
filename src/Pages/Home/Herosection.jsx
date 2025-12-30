@@ -49,7 +49,7 @@ function HeroSection() {
             onClick={prev}
             className="absolute left-4 top-1/2 -translate-y-1/2 z-10
               w-10 h-10 rounded-full bg-white/30 backdrop-blur
-              flex items-center justify-center hover:bg-white/50 transition"
+              flex items-center justify-center hover:bg-white/50 transition hidden md:flex"
           >
             <ChevronLeft className="text-white" />
           </button>
@@ -58,7 +58,7 @@ function HeroSection() {
             onClick={next}
             className="absolute right-4 top-1/2 -translate-y-1/2 z-10
               w-10 h-10 rounded-full bg-white/30 backdrop-blur
-              flex items-center justify-center hover:bg-white/50 transition"
+              flex items-center justify-center hover:bg-white/50 transition hidden md:flex"
           >
             <ChevronRight className="text-white" />
           </button>

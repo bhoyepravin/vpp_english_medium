@@ -22,6 +22,19 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef(null);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
+
   const menuItems = [
     {
       name: "HOME",
@@ -94,7 +107,7 @@ const Navbar = () => {
   };
 
   const handleMainSite = () => {
-    window.location.href = "https://vppschool.edu.in";
+    window.location.href = "https://bhonsala.in";
   };
 
   useEffect(() => {
@@ -149,7 +162,7 @@ const Navbar = () => {
           <div className="md:hidden w-full text-center mt-2">
             <button
               onClick={handleMainSite}
-              className="bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold px-4 py-1.5 rounded w-full max-w-xs"
+              className="bg-orange-500 hover:bg-orange-700  text-white text-xs font-semibold px-4 py-1.5 rounded w-40 ml-46 max-w-xs"
             >
               GO TO MAIN SITE
             </button>
@@ -187,7 +200,7 @@ const Navbar = () => {
             <div>
               <button
                 onClick={handleMainSite}
-                className="bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold px-4 py-2 rounded"
+                className="bg-orange-500 hover:bg-orange-700 text-white text-sm font-semibold px-4 py-2 rounded"
               >
                 GO TO MAIN SITE
               </button>
@@ -231,7 +244,7 @@ const Navbar = () => {
       )}
 
       {/* ===== Menu Bar ===== */}
-      <nav className="bg-orange-600 relative" ref={dropdownRef}>
+      <nav className="bg-orange-400 relative" ref={dropdownRef}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-12">
             {/* Desktop Menu */}
@@ -331,71 +344,122 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Overlay */}
         {open && (
-          <div className="md:hidden bg-orange-500 text-white px-4 py-3">
-            {menuItems.map((item) => (
-              <div key={item.name}>
-                {item.dropdown ? (
-                  <div className="mb-2">
-                    <button
-                      onClick={() =>
-                        setActiveDropdown(
-                          activeDropdown === item.name ? null : item.name
-                        )
-                      }
-                      className="flex items-center justify-between w-full py-2 font-semibold text-sm"
-                    >
-                      <div className="flex items-center gap-2">
-                        {item.icon}
-                        <span>{item.name}</span>
-                      </div>
-                      <ChevronDown
-                        size={16}
-                        className={`transition-transform ${
-                          activeDropdown === item.name ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
+          <>
+            {/* Backdrop */}
+            <div
+              className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+              onClick={() => setOpen(false)}
+            />
 
-                    {activeDropdown === item.name && (
-                      <div className="ml-6 mt-1 space-y-1">
-                        {item.dropdown.map((subItem) => (
+            {/* Mobile Menu Panel */}
+            <div className="md:hidden fixed top-0 left-0 w-full h-full z-50 overflow-hidden">
+              {/* Menu Content */}
+              <div className="bg-orange-600 text-white h-full overflow-y-auto mobile-nav-scroll">
+                <div className="p-4">
+                  {/* Close button at top */}
+                  <div className="flex justify-end mb-4">
+                    <button
+                      className="text-white p-2"
+                      onClick={() => setOpen(false)}
+                      aria-label="Close menu"
+                    >
+                      <X size={24} />
+                    </button>
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="space-y-2">
+                    {menuItems.map((item) => (
+                      <div
+                        key={item.name}
+                        className="border-b border-orange-500 pb-2"
+                      >
+                        {item.dropdown ? (
+                          <div>
+                            <button
+                              onClick={() =>
+                                setActiveDropdown(
+                                  activeDropdown === item.name
+                                    ? null
+                                    : item.name
+                                )
+                              }
+                              className="flex items-center justify-between w-full py-3 font-semibold text-sm text-left"
+                            >
+                              <div className="flex items-center gap-3">
+                                {item.icon}
+                                <span>{item.name}</span>
+                              </div>
+                              <ChevronDown
+                                size={18}
+                                className={`transition-transform ${
+                                  activeDropdown === item.name
+                                    ? "rotate-180"
+                                    : ""
+                                }`}
+                              />
+                            </button>
+
+                            {activeDropdown === item.name && (
+                              <div className="ml-8 mt-2 space-y-2 pb-2">
+                                {item.dropdown.map((subItem) => (
+                                  <a
+                                    key={subItem.name}
+                                    href={subItem.link}
+                                    className="block py-2 text-sm opacity-90 hover:opacity-100 hover:pl-2 transition-all"
+                                    onClick={() => setOpen(false)}
+                                  >
+                                    • {subItem.name}
+                                  </a>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
                           <a
-                            key={subItem.name}
-                            href={subItem.link}
-                            className="block py-1.5 text-sm opacity-90 hover:opacity-100"
+                            href={item.link}
+                            className="flex items-center gap-3 py-3 font-semibold text-sm"
                             onClick={() => setOpen(false)}
                           >
-                            • {subItem.name}
+                            {item.icon}
+                            <span>{item.name}</span>
                           </a>
-                        ))}
+                        )}
                       </div>
-                    )}
+                    ))}
                   </div>
-                ) : (
-                  <a
-                    href={item.link}
-                    className="flex items-center gap-2 py-2 border-b border-orange-400 font-semibold text-sm"
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.icon}
-                    <span>{item.name}</span>
-                  </a>
-                )}
-              </div>
-            ))}
 
-            <button
-              onClick={() => {
-                handleMainSite();
-                setOpen(false);
-              }}
-              className="w-full bg-white text-orange-600 py-2 rounded font-bold mt-4 text-sm"
-            >
-              GO TO MAIN SITE
-            </button>
-          </div>
+                  {/* GO TO MAIN SITE Button */}
+                  <button
+                    onClick={() => {
+                      handleMainSite();
+                      setOpen(false);
+                    }}
+                    className="w-full bg-white text-orange-600 py-3 rounded-lg font-bold mt-6 text-sm hover:bg-gray-100 transition-colors"
+                  >
+                    GO TO MAIN SITE
+                  </button>
+
+                  {/* Social Links in Mobile Menu */}
+                  <div className="flex justify-center gap-6 mt-8 pt-6 border-t border-orange-500">
+                    {socialLinks.map((social, index) => (
+                      <a
+                        key={index}
+                        href={social.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white text-opacity-90 hover:text-opacity-100 transition-opacity"
+                      >
+                        {social.icon}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
         )}
       </nav>
     </header>
